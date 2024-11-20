@@ -3,7 +3,7 @@ import threading
 import time
 from queue import Queue
 from random import randint
-
+from typing import Iterable
 class Table:
     def __init__(self, number, guest=None):
         self.number = number
@@ -22,21 +22,29 @@ class Guest(threading.Thread):
         time.sleep(to_wait)
 
 class Cafe:
-    tables = []
-    def __init__(self, queue, table):
-        self.queue = Queue()
+
+    def __init__(self, queue=Queue, tables=Iterable):
+        self.queue = queue
+        self.tables = tables
 
     def guest_arrival(self, *guests):
         for guest in guests:
-            for i in range(1, 7):
-                pass
-                if self.tables[i].guest == None:
-                    self.tables[i].guest = guest
-                    print(f'{guest} сел(-а) за стол номер {tables[i]}')
-                else:
-                    break
+            print(guests)
+            print(guest)
+            for g in guest:
+                print(g, guest, 'G and GUESTS')
+                
+                for i in range(1, 5):
 
-    
+                    if self.tables[i].guest == None:
+                        self.tables[i].guest = g
+                        print(f'{g} сел(-а) за стол номер {i}')
+
+
+                    else:
+                        break
+
+
 
 # Создание столов
 tables = [Table(number) for number in range(1, 6)]
@@ -48,6 +56,10 @@ guests_names = [
 # Создание гостей
 guests = [Guest(name) for name in guests_names]
 print(len(guests), '- len guests')
+
+caf = Cafe(Queue, tables)
+
+caf.guest_arrival(guests_names)
 
 
 print(tables[0])
